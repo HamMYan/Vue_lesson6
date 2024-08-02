@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 6</title>
+    <style>
+        .text {
+            width: 120px;
+            height: 120px;
+            background-color: red;
+        }
+
+        .position {
+            width: 120px;
+            height: 120px;
+            background-color: #53be22;
+            text-align: center;
+        }
+
+        .btn {
+            margin: 10px;
+        }
+
+        .animals {
+            width: 1000px;
+            height: 400px;
+            border: 3px solid;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .animal {
+            border: 3px solid;
+            border-radius: 10px;
+            width: 300px;
+            height: 350px;
+            display: grid;
+            place-items: center;
+            margin: 10px;
+            background-color: rgb(84, 88, 88);
+        }
+
+        .animalImg {
+            width: 270px;
+            height: 240px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Methods</h1>
+        <hr><br><br>
+
+        <div v-on:click="writeText" class="text">
+            {{text}}
+        </div>
+        <hr><br>
+
+        <h3>Mouse Pointer Position</h3>
+        <div v-on:mousemove="mousePos" v-bind:style="{backgroundColor:'hsl('+xPos+',80%,80%)'}" class="position">
+            <span>xPos - {{xPos}}</span><br>
+            <span>yPos - {{yPos}}</span><br>
+        </div>
+        <hr><br>
+
+        <h3>Text Write</h3>
+        <input v-on:input="textWrite" type="text">
+        <p>{{text2}}</p>
+        <hr><br>
+
+        <h3>Count</h3>
+        <p>Total - {{count}}</p>
+
+        <button v-on:click="addNumber(1)" class="btn">+1</button>
+        <button v-on:click="addNumber(5)" class="btn">+5</button>
+        <button v-on:click="addNumber(-1)" class="btn">-1</button>
+        <hr><br>
+
+        <h3>Using Event and Arguments</h3>
+        <br>
+        <img v-on:click="clickTiger($event,'Hello')" id="tiger"
+            src="https://www.w3schools.com/vue/img_tiger_square.jpeg" width="200px">
+        <p>{{msgAndId}}</p>
+        <hr><br>
+
+        <h3>In Larger</h3>
+        <hr><br>
+
+        <div class="animals">
+            <div id="tigers" class="animal">
+                <img class="animalImg" src="https://www.w3schools.com/vue/img_tiger_square.jpeg" alt="">
+                <button v-on:click="addAnimal($event,1)">+1</button>
+                <button v-on:click="addAnimal($event,5)">+5</button>
+                <button v-on:click="addAnimal($event,-1)">-1</button>
+            </div>
+
+            <div id="moose" class="animal">
+                <img class="animalImg" src="https://www.w3schools.com/vue/img_moose_square.jpeg" alt="">
+                <button v-on:click="addAnimal($event,1)">+1</button>
+                <button v-on:click="addAnimal($event,5)">+5</button>
+                <button v-on:click="addAnimal($event,1)">-1</button>
+            </div>
+
+            <div id="kangaroos" class="animal">
+                <img class="animalImg" src="https://www.w3schools.com/vue/img_kangaroo_square.jpeg" alt="">
+                <button v-on:click="addAnimal($event,1)">+1</button>
+                <button v-on:click="addAnimal($event,5)">+5</button>
+                <button v-on:click="addAnimal($event,-1)">-1</button>
+            </div>
+
+        </div>
+        <ul>
+            <li>Tigers: {{ tigers }}</li>
+            <li>Moose: {{ moose }}</li>
+            <li>Kangaroos: {{ kangaroos }}</li>
+        </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    text: '',
+                    text2: '',
+                    xPos: 0,
+                    yPos: 0,
+                    count: 0,
+                    msgAndId: '',
+                    tigers: 0,
+                    moose: 0,
+                    kangaroos: 0,
+                }
+            },
+            methods: {
+                writeText() {
+                    this.text = 'Hello World!'
+                },
+
+                mousePos(event) {
+                    this.xPos = event.offsetX
+                    this.yPos = event.offsetY
+                },
+
+                textWrite(event) {
+                    this.text2 = event.target.value
+                },
+
+                addNumber(number) {
+                    this.count += number
+                },
+
+                clickTiger(event, msg) {
+                    this.msgAndId = msg + ', '
+                    this.msgAndId += event.target.id
+                },
+
+                addAnimal(event,number){
+                    if(event.target.parentElement.id === "tigers") this.tigers += number
+                    if(event.target.parentElement.id === "moose") this.moose += number
+                    if(event.target.parentElement.id === "kangaroos") this.kangaroos += number
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
